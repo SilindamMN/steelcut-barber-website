@@ -194,3 +194,11 @@ section{padding:58px 0}
 .steelcut-ai-form input:focus{border-color:var(--gold)}
 .steelcut-ai-form button{width:40px;border:0;border-radius:10px;background:var(--gold);color:var(--navy);font-weight:800;cursor:pointer}
 @media(max-width:575px){.steelcut-ai-button{right:14px;bottom:14px}.steelcut-ai-panel{right:14px;bottom:67px;width:calc(100vw - 28px);height:min(540px,calc(100vh - 90px))}}
+
+/* Mobile navigation: keep the existing design, but make the collapsed menu easy to use. */
+@media (max-width: 991.98px) {
+  .navbar { position: sticky; top: 0; z-index: 1030; }
+  .navbar-collapse { padding: 12px 0 8px; }
+  .navbar-nav .nav-link { padding: 10px 0; }
+  .navbar-nav .btn-book { margin-bottom: 4px; }
+}
