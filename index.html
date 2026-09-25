@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steelcut Barber Co. — Johannesburg</title>
+<meta name="description" content="Steelcut Barber Co. — precision haircuts, fades, beard grooming and hot towel shaves in Marshalltown, Johannesburg.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#home"><span class="pole"></span> Steelcut</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#products">Products</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#visit">Contact</a></li>
+        <li class="nav-item mt-2 mt-lg-0"><button class="btn btn-book" data-bs-toggle="modal" data-bs-target="#bookingModal">Book Now</button></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-content">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <div class="eyebrow">MARSHALLTOWN · JOHANNESBURG · EST. 2018</div>
+        <h1>A proper barbershop for sharp, clean cuts.</h1>
+        <p class="text-muted-c fs-5 mt-3" style="max-width:48ch;">From everyday haircuts and skin fades to beard grooming and hot towel shaves, Steelcut keeps the experience simple and professional.</p>
+        <div class="d-flex gap-3 flex-wrap mt-4">
+          <button class="btn btn-book btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Book an appointment</button>
+          <a href="#services" class="btn btn-outline-cream btn-lg">View services</a>
+        </div>
+        <div class="hero-points mt-4"><span>✓ 7 professional barbers</span><span>✓ Online appointments</span><span>✓ Sunday closed</span></div>
+      </div>
+      <div class="col-lg-5">
+        <div class="hero-visual">
+          <img src="https://images.pexels.com/photos/19664876/pexels-photo-19664876.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Barber cutting a client's hair in a modern barbershop">
+          <div class="hero-hours">
+            <span>OPENING HOURS</span>
+            <strong>Mon–Fri 09:00–19:00</strong>
+            <strong>Sat 08:00–17:00</strong>
+            <small>Sunday closed</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="home-intro">
+  <div class="container">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-lg-5">
+        <div class="intro-card intro-dark h-100">
+          <span class="eyebrow">THE STEELCUT EXPERIENCE</span>
+          <h2>Good barbering starts with getting the basics right.</h2>
+          <p class="text-muted-c">Tell us what you want, choose your barber and arrive at a time that works for you. Every appointment is built around the service you selected.</p>
+          <a href="#about" class="text-link">Meet the team →</a>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3 h-100">
+          <div class="col-sm-4"><div class="mini-service"><span>01</span><h3>Haircuts</h3><p>Classic cuts and clean finishes.</p></div></div>
+          <div class="col-sm-4"><div class="mini-service"><span>02</span><h3>Fades</h3><p>Skin fades and detailed blends.</p></div></div>
+          <div class="col-sm-4"><div class="mini-service"><span>03</span><h3>Beards</h3><p>Shape, line-up and grooming.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="section-head mb-4">
+      <div><span class="eyebrow">SERVICES</span><h2>Services</h2></div>
+      <p class="text-muted-c">Choose a service, check the price and estimated time, then expand a card for more details.</p>
+    </div>
+    <div class="row g-4" id="serviceCards"></div>
+  </div>
+</section>
+<section class="trust-strip">
+  <div class="container">
+    <div class="row g-3 text-center">
+      <div class="col-6 col-lg-3"><strong>01</strong><span>Professional barbers</span></div>
+      <div class="col-6 col-lg-3"><strong>02</strong><span>Clear service pricing</span></div>
+      <div class="col-6 col-lg-3"><strong>03</strong><span>Real-time booking checks</span></div>
+      <div class="col-6 col-lg-3"><strong>04</strong><span>Calendar-ready appointments</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="container">
+    <div class="section-head mb-4">
+      <div><span class="eyebrow">GROOMING PRODUCTS</span><h2>Products we use</h2></div>
+      <p class="text-muted-c">Products available at the shop with useful information before you buy.</p>
+    </div>
+    <div class="row g-4" id="productCards"></div>
+  </div>
+</section>
+
+
+<section id="about" class="about-section">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <div class="about-main-image">
+          <img src="https://images.unsplash.com/photo-1702865272115-5afdbae975af?auto=format&fit=crop&w=1400&q=85" alt="Professional barbershop interior with barber chair and mirror">
+          <div class="about-badge"><strong>STEELCUT</strong><span>Marshalltown · Johannesburg</span></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <span class="eyebrow">ABOUT STEELCUT</span>
+        <h2>Built around the chair, the craft and the customer.</h2>
+        <p class="text-muted-c">Steelcut Barber Co. is a professional barbershop in Marshalltown, Johannesburg, built around a simple idea: make getting a good cut straightforward.</p>
+        <p class="text-muted-c">Our barbers focus on clean technique, clear communication and a consistent finish. Whether you want a classic haircut, a sharp fade, a beard tidy-up or a traditional hot towel shave, the service starts with understanding what you want.</p>
+        <div class="about-stats row g-3 mt-3">
+          <div class="col-4"><strong>07</strong><span>Barbers</span></div>
+          <div class="col-4"><strong>06</strong><span>Core services</span></div>
+          <div class="col-4"><strong>6/7</strong><span>Days open</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="team-heading mt-5 pt-4"><span class="eyebrow">THE TEAM</span><h2>Meet your barbers</h2></div>
+    <div class="barber-slider-wrap">
+      <button class="barber-slider-btn prev" type="button" id="barberPrev" aria-label="Previous barbers">‹</button>
+      <div class="barber-slider" id="barberSlider"></div>
+      <button class="barber-slider-btn next" type="button" id="barberNext" aria-label="Next barbers">›</button>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="container">
+    <div class="section-head mb-4">
+      <div><span class="eyebrow">CONTACT</span><h2>Visit or book online</h2></div>
+      <p class="text-muted-c">All booking information is completed in one modal. No second booking form.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="info-card h-100">
+          <h3 class="h5">Ready for your next cut?</h3>
+          <p class="text-muted-c">Use <strong>Book Now</strong>. The booking window checks our operating hours and prevents duplicate barber/time bookings in this demo.</p>
+          <button class="btn btn-gold" data-bs-toggle="modal" data-bs-target="#bookingModal">Book an appointment</button>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="info-card mb-3">
+          <h3 class="h5">Find us</h3>
+          <p class="text-muted-c small mb-1">14 Fox Street, Marshalltown, Johannesburg, 2001</p>
+          <p class="text-muted-c small">081 400 2277 · hello@steelcutbarber.co.za</p>
+          <iframe class="map-frame" title="Steelcut Barber Co. location on Google Maps" loading="lazy" src="https://www.google.com/maps?q=14+Fox+Street,+Marshalltown,+Johannesburg,+2001&output=embed"></iframe>
+          <div class="map-actions mt-2"><span class="text-muted-c small">Tap the map to explore the area.</span><a class="map-link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=14%20Fox%20Street%2C%20Marshalltown%2C%20Johannesburg%2C%202001">Open in Google Maps ↗</a></div>
+        </div>
+        <div class="info-card">
+          <h3 class="h5">Hours</h3>
+          <div class="hours-row"><span>Mon – Fri</span><span>09:00 – 19:00</span></div>
+          <div class="hours-row"><span>Saturday</span><span>08:00 – 17:00</span></div>
+          <div class="hours-row closed"><span>Sunday</span><span>Closed</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <div class="cta-box">
+      <div><span class="eyebrow">YOUR NEXT CUT</span><h2 class="mb-2">Leave looking sharper than you arrived.</h2><p class="text-muted-c mb-0">Choose your service, select your barber and confirm your appointment in one simple booking window.</p></div>
+      <button class="btn btn-book btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal">Book now</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-6"><a class="navbar-brand" href="#home"><span class="pole"></span> Steelcut</a><p class="text-muted-c small mt-2">Professional grooming in Marshalltown, Johannesburg.</p></div>
+      <div class="col-lg-2 col-6"><h5>Navigate</h5><a href="#home">Home</a><a href="#services">Services</a><a href="#products">Products</a><a href="#about">About</a></div>
+      <div class="col-lg-3 col-6"><h5>Contact</h5><a href="tel:0814002277">081 400 2277</a><a href="mailto:hello@steelcutbarber.co.za">hello@steelcutbarber.co.za</a><a href="#visit">14 Fox Street, Johannesburg</a><div class="socials mt-3"><a href="#" aria-label="Instagram">Instagram</a><a href="#" aria-label="Facebook">Facebook</a></div></div>
+      <div class="col-lg-3 col-6"><h5>Legal</h5><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms & Conditions</a><a href="#" data-bs-toggle="modal" data-bs-target="#refundModal">Refund & Cancellation Policy</a><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Notice</a></div>
+    </div>
+    <div class="foot-bottom d-flex justify-content-between flex-wrap"><span>© 2026 Steelcut Barber Co. All rights reserved.</span><span>Marshalltown, Johannesburg</span></div>
+  </div>
+</footer>
+
+<!-- PURPOSEFUL PROMOTION MODAL -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered booking-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0"><div><h3 class="modal-title h4">Book an appointment</h3><p class="text-muted-c small mb-0">Everything you need is in this window.</p></div><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>
+      <div class="modal-body">
+        <form id="bookingForm" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6"><label class="form-label">Service</label><select class="form-select" id="m-service" required><option value="">Select a service</option></select></div>
+            <div class="col-12"><label class="form-label">Choose your barber</label><div class="barber-picker" id="barberPicker"></div><input type="hidden" id="m-barber" value=""></div>
+            <div class="col-md-6"><label class="form-label">Date</label><div class="picker-card" id="datePickerCard" role="button" tabindex="0"><div class="picker-icon">📅</div><div><span class="picker-label">Appointment date</span><strong id="dateDisplay">Choose a date</strong><small id="dateHelp">Sunday is closed. Choose Monday–Saturday.</small></div></div><input type="hidden" id="m-date" required></div>
+            <div class="col-md-6"><label class="form-label">Time</label><div class="picker-card" id="timePickerCard" role="button" tabindex="0"><div class="picker-icon">◷</div><div><span class="picker-label">Appointment time</span><strong id="timeDisplay">Choose a time</strong><small id="timeHelp">Select a time after choosing a date.</small></div></div><input type="hidden" id="m-time" required></div>
+            <div class="col-12 d-none" id="datePickerPanel"><div class="calendar-panel"><div class="calendar-head"><button type="button" class="calendar-nav" id="prevMonth">‹</button><strong id="calendarMonth"></strong><button type="button" class="calendar-nav" id="nextMonth">›</button></div><div class="calendar-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div><div class="calendar-grid" id="calendarGrid"></div></div></div>
+            <div class="col-12 d-none" id="timePickerPanel"><div class="time-panel"><div class="time-panel-head"><strong>Available times</strong><span id="timePanelNote">Choose a date first.</span></div><div class="time-grid" id="timeGrid"></div></div></div>
+            <div class="col-md-6"><label class="form-label">Full name</label><input type="text" class="form-control" id="m-name" autocomplete="name" required></div>
+            <div class="col-md-6"><label class="form-label">Email</label><input type="email" class="form-control" id="m-email" autocomplete="email" inputmode="email" placeholder="you@example.com" pattern="[^\s@]+@[^\s@]+\.[^\s@]{2,}" required><div class="invalid-feedback">Enter a valid email address, for example name@example.com.</div></div>
+            <div class="col-md-6"><label class="form-label">Cellphone</label><input type="tel" class="form-control" id="m-phone" autocomplete="tel" inputmode="numeric" maxlength="10" minlength="10" pattern="0[0-9]{9}" placeholder="0812345678" required><div class="invalid-feedback">Use exactly 10 digits starting with 0.</div></div>
+            <div class="col-md-6"><label class="form-label">Notes <span class="text-muted-c">(optional)</span></label><input type="text" class="form-control" id="m-notes" placeholder="Anything the barber should know?"></div>
+          </div>
+          <div id="bookingErr" class="alert alert-danger d-none mt-3 mb-0"></div>
+          <div class="booking-policy mt-3"><strong>After confirmation:</strong> your appointment is confirmed and you can add it directly to Google Calendar. For Apple Calendar or other calendar apps, use the calendar file button.</div>
+          <button type="submit" class="btn btn-gold w-100 mt-3">Confirm booking</button>
+        </form>
+        <div id="bookingSuccess" class="success-panel d-none mt-3">
+          <h4 class="h5">Booking confirmed</h4>
+          <p id="successText" class="text-muted-c mb-3"></p>
+          <div class="d-grid gap-2">
+            <a id="googleCalendarBtn" class="btn btn-gold" href="#" target="_blank" rel="noopener">Add to Google Calendar</a>
+            <button id="calendarFileBtn" type="button" class="btn btn-outline-cream">Add to Apple / Other Calendar</button>
+          </div>
+          <p id="calendarHelp" class="small text-muted-c mt-3 mb-0">Calendar details are prepared from your selected service, barber, date and time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- READ MORE MODAL -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-header border-0"><h3 id="detailTitle" class="modal-title h4"></h3><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><img id="detailImage" class="detail-image" alt=""><div class="mt-3" id="detailBody"></div></div><div class="modal-footer border-0"><button id="detailBook" class="btn btn-gold">Book this service</button></div></div></div>
+</div>
+
+<!-- TERMS -->
+<div class="modal fade" id="termsModal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content"><div class="modal-header border-0"><h3 class="modal-title h5">Terms & Conditions</h3><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body legal-copy">
+<p><strong>Last updated: September 2026</strong></p>
+<h4>1. General</h4><p>These terms apply to appointments and purchases made through the Steelcut Barber Co. website. By submitting a booking, you confirm that the information supplied is accurate and that you accept these terms.</p>
+<h4>2. Appointments</h4><p>Appointments are subject to availability and are only offered during published operating hours. Sunday is closed and cannot be booked. A booking is only confirmed after the website accepts the appointment and displays a confirmation.</p>
+<h4>3. Appointment times</h4><p>The selected service duration is used when checking availability. A barber cannot be assigned to two appointments that overlap. If a requested barber is already booked, that time is unavailable for that barber.</p>
+<h4>4. Arrival and late appointments</h4><p>Please arrive on time. A late arrival may reduce the available service time. If the delay prevents the service from being completed, the appointment may be treated as a missed appointment.</p>
+<h4>5. Cancellations and rescheduling</h4><p>Customers should provide at least 4 hours' notice when cancelling or rescheduling. Repeated late cancellations or no-shows may require a deposit or other booking restriction for future appointments.</p>
+<h4>6. Prices</h4><p>Displayed prices apply to the listed service and duration. If a service changes materially, the customer will be informed before additional work is performed. Prices may be updated for future bookings.</p>
+<h4>7. Products</h4><p>Product descriptions are provided for general grooming guidance. Customers should check the product label and discontinue use if irritation occurs.</p>
+<h4>8. Conduct</h4><p>Steelcut may refuse service where a customer's behaviour creates a safety, harassment or disruption concern for staff or other customers.</p>
+<h4>9. Privacy</h4><p>Booking details are used to manage appointments, communicate with customers and maintain booking records. Information should not be sold for unrelated marketing purposes.</p>
+<h4>10. Changes</h4><p>These terms may be updated from time to time. The version published on the website at the time of booking applies to that booking.</p>
+<h4>11. Legal notice</h4><p>This website wording is a practical business template. Before launch, the shop should review its final Terms, Privacy Notice and Refund Policy against its actual operations and applicable South African law.</p>
+</div></div></div></div>
+
+<!-- REFUND -->
+<div class="modal fade" id="refundModal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content"><div class="modal-header border-0"><h3 class="modal-title h5">Refund & Cancellation Policy</h3><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body legal-copy">
+<h4>Services</h4><p>Where a service has already been completed, refunds are considered only where there is a genuine service issue and should be raised with the shop promptly. Rework may be offered where appropriate.</p>
+<h4>Cancelled appointments</h4><p>Appointments cancelled at least 4 hours before the appointment may be rescheduled subject to availability. Late cancellations and no-shows may be non-refundable where a deposit was taken.</p>
+<h4>Products</h4><p>Unopened, unused products may be eligible for return subject to the shop's return conditions. Used grooming products are generally not eligible for return for hygiene reasons unless required by applicable law.</p>
+<p class="small text-muted-c">This is a website policy template and should be reviewed against the business's actual refund rules and applicable South African law before production use.</p>
+</div></div></div></div>
+
+<!-- PRIVACY -->
+<div class="modal fade" id="privacyModal" tabindex="-1"><div class="modal-dialog modal-dialog-scrollable modal-lg"><div class="modal-content"><div class="modal-header border-0"><h3 class="modal-title h5">Privacy Notice</h3><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body legal-copy"><p>We collect the name, email address, cellphone number and appointment details supplied during booking so that the shop can schedule and manage the appointment. Access should be limited to people who need the information to operate the booking service. The production website should include a complete privacy notice, retention period and lawful processing details appropriate to the business.</p></div></div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+
+<!-- Steelcut AI Assistant -->
+<button id="steelcutAiButton" class="steelcut-ai-button" type="button" aria-label="Open Steelcut AI assistant">
+  <span class="steelcut-ai-icon">✦</span><span>Steelcut AI</span>
+</button>
+<div id="steelcutAiPanel" class="steelcut-ai-panel" hidden>
+  <div class="steelcut-ai-header">
+    <div><strong>Steelcut AI</strong><small>Barber assistant</small></div>
+    <button id="steelcutAiClose" type="button" aria-label="Close chat">×</button>
+  </div>
+  <div id="steelcutAiMessages" class="steelcut-ai-messages" aria-live="polite">
+    <div class="steelcut-ai-message bot">Hey! I’m Steelcut AI. I can help with services, prices, barbers, products, opening hours, or booking.</div>
+  </div>
+  <div class="steelcut-ai-suggestions">
+    <button type="button" data-ai-prompt="Which service would you recommend for a clean professional look?">Service recommendation</button>
+    <button type="button" data-ai-prompt="What are your opening hours?">Opening hours</button>
+    <button type="button" data-ai-prompt="Tell me about the Beard Oil.">Beard Oil</button>
+  </div>
+  <form id="steelcutAiForm" class="steelcut-ai-form">
+    <input id="steelcutAiInput" type="text" maxlength="500" placeholder="Ask Steelcut AI..." autocomplete="off" />
+    <button type="submit" aria-label="Send message">➤</button>
+  </form>
+</div>
+</body>
+</html>
