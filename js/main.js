@@ -67,10 +67,13 @@ function demoSlotBusy(date,time){
  return status.busy.has(seed%40);
 }
 function isAtLeastOneHourFromNow(date,time){
+ const today=todayISO();
+ if(date!==today)return true;
  const now=new Date();
- const chosen=new Date(date+"T"+time+":00");
- if(date!==todayISO())return true;
- return chosen.getTime()>=now.getTime()+60*60*1000;
+ // Same-day bookings open at the next full hour. Example: 14:20 -> 15:00.
+ // This also guarantees at least one hour notice when the current time is exactly on the hour.
+ const minimumMinutes=(now.getHours()+1)*60;
+ return timeToMinutes(time)>=minimumMinutes;
 }
 let pendingServiceId="";
 const EMAIL_CONFIG={enabled:false,serviceId:"YOUR_EMAILJS_SERVICE_ID",templateId:"YOUR_EMAILJS_TEMPLATE_ID",publicKey:"YOUR_EMAILJS_PUBLIC_KEY"};
@@ -80,7 +83,10 @@ calendarCursor.setDate(1);
 function $(id){return document.getElementById(id)}
 function esc(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 function dateParts(v){const d=new Date(v+"T00:00:00");return {date:d,day:d.getDay()}}
-function todayISO(){const d=new Date();d.setHours(0,0,0,0);return d.toISOString().slice(0,10)}
+function todayISO(){
+ const d=new Date();
+ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
 function timeToMinutes(t){const [h,m]=t.split(":").map(Number);return h*60+m}
 function minutesToTime(n){n=Math.max(0,n);return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
 function overlaps(aStart,aEnd,bStart,bEnd){return aStart<bEnd && bStart<aEnd}
@@ -209,11 +215,14 @@ function resetBookingPickers(){
  $("m-barber").value="";
  document.querySelectorAll(".barber-option").forEach(b=>b.classList.toggle("active",b.dataset.barber===""));
  $("m-date").value="";$("m-time").value="";$("dateDisplay").textContent="Choose a date";$("timeDisplay").textContent="Choose a time";
- $("dateHelp").textContent="Sunday is closed. Choose Monday–Saturday. Today is available from 1 hour from now.";$("timeHelp").textContent="Select a date to see available times.";
+ $("dateHelp").textContent="Sunday is closed. Choose Monday–Saturday. Today is available from the next full hour. Example: 14:20 → 15:00.";$("timeHelp").textContent="Select a date to see available times.";
  $("datePickerPanel").classList.add("d-none");$("timePickerPanel").classList.add("d-none");
  calendarCursor=new Date();calendarCursor.setDate(1);renderCalendar();
 }
 function renderCalendar(){
+ const now=new Date();
+ const currentMonthStart=new Date(now.getFullYear(),now.getMonth(),1);
+ if(calendarCursor<currentMonthStart) calendarCursor=new Date(currentMonthStart);
  const year=calendarCursor.getFullYear(),month=calendarCursor.getMonth();
  $("calendarMonth").textContent=new Intl.DateTimeFormat("en-ZA",{month:"long",year:"numeric"}).format(calendarCursor);
  const grid=$("calendarGrid");grid.innerHTML="";
@@ -231,7 +240,9 @@ function renderCalendar(){
  grid.querySelectorAll(".calendar-day:not([disabled])").forEach(b=>b.onclick=()=>selectDate(b.dataset.date));
 }
 function selectDate(iso){
- const {day}=dateParts(iso);if(day===0)return;
+ const today=todayISO();
+ const {day}=dateParts(iso);
+ if(iso<today||day===0)return;
  $("m-date").value=iso;$("dateDisplay").textContent=fmtDate(iso);$("dateHelp").textContent=`Open ${HOURS[day][0]}–${HOURS[day][1]}. Times shown below account for service duration.`;
  $("datePickerPanel").classList.add("d-none");$("m-time").value="";$("timeDisplay").textContent="Choose a time";renderTimeSlots();
  $("timePickerPanel").classList.remove("d-none");
@@ -250,7 +261,7 @@ function renderTimeSlots(){
   const demoBusy=demoSlotBusy(date,time);
   const realAvailable=$("m-barber").value?isSlotAvailable(date,time,$("m-barber").value,svc.mins):isAnyBarberAvailable(date,time,svc.mins);
   const available=!tooSoon&&!demoBusy&&realAvailable;
-  const reason=tooSoon?"Bookings must be made at least 1 hour from now":demoBusy?"Unavailable in demo availability":realAvailable?"Available":"No barber available at this time";
+  const reason=tooSoon?"Same-day bookings start from the next full hour":demoBusy?"Unavailable in demo availability":realAvailable?"Available":"No barber available at this time";
   const b=document.createElement("button");b.type="button";b.className="time-slot"+(time===$("m-time").value?" selected":"")+(demoBusy?" demo-busy":"");b.textContent=time;b.disabled=!available;b.title=reason;
   b.onclick=()=>selectTime(time);grid.appendChild(b);
  }
@@ -275,7 +286,11 @@ async function sendAutomaticEmail(svc,booking){
 $("m-service").addEventListener("change",()=>{if($("m-date").value)renderTimeSlots()});
 $("datePickerCard").addEventListener("click",toggleDatePicker);$("datePickerCard").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")toggleDatePicker()});
 $("timePickerCard").addEventListener("click",toggleTimePicker);$("timePickerCard").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" ")toggleTimePicker()});
-$("prevMonth").addEventListener("click",()=>{calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar()});
+function canGoToPreviousMonth(){
+ const now=new Date();
+ return calendarCursor.getFullYear()>now.getFullYear() || (calendarCursor.getFullYear()===now.getFullYear() && calendarCursor.getMonth()>now.getMonth());
+}
+$("prevMonth").addEventListener("click",()=>{if(!canGoToPreviousMonth())return;calendarCursor.setMonth(calendarCursor.getMonth()-1);renderCalendar()});
 $("nextMonth").addEventListener("click",()=>{calendarCursor.setMonth(calendarCursor.getMonth()+1);renderCalendar()});
 
 function validateCustomerFields(){
@@ -306,7 +321,7 @@ $("bookingForm").addEventListener("submit",async e=>{
  if(!svc||!date||!time||!name||!email||!phone){err.textContent="Please complete service, barber, date, time, name, email and cellphone.";err.classList.remove("d-none");return}
  if(!validateCustomerFields()||!e.target.checkValidity()){err.textContent="Please correct the highlighted customer details before confirming.";err.classList.remove("d-none");e.target.classList.add("was-validated");return}
  const {day}=dateParts(date);if(day===0||!HOURS[day]){err.textContent="Sunday is closed. Please choose Monday to Saturday.";err.classList.remove("d-none");return}
- const [open,close]=HOURS[day],t=timeToMinutes(time),end=t+svc.mins;if(!isAtLeastOneHourFromNow(date,time)){err.textContent="Same-day bookings must be made at least 1 hour from the current time.";err.classList.remove("d-none");renderTimeSlots();return}
+ const [open,close]=HOURS[day],t=timeToMinutes(time),end=t+svc.mins;if(!isAtLeastOneHourFromNow(date,time)){err.textContent="Same-day bookings must start from the next full hour (at least 1 hour from now).";err.classList.remove("d-none");renderTimeSlots();return}
  if(demoDayStatus(date).full||demoSlotBusy(date,time)){err.textContent="That time is unavailable in the demo calendar. Please choose another time.";err.classList.remove("d-none");renderTimeSlots();return}
  if(t<timeToMinutes(open)||end>timeToMinutes(close)){err.textContent=`This service must finish within operating hours. On this day we are open ${open}–${close}.`;err.classList.remove("d-none");return}
  const barber=chooseBarber(date,time,svc.mins);if(!barber){err.textContent=$("m-barber").value?`${$("m-barber").value} is already booked for this time. Please choose another available time.`:"All barbers are booked for this time. Please choose another available time.";err.classList.remove("d-none");renderTimeSlots();return}
