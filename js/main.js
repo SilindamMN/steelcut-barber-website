@@ -96,8 +96,68 @@ function chooseBarber(date,time,mins){
  return BARBERS.find(b=>isSlotAvailable(date,time,b.name,mins))?.name||null;
 }
 function fmtDate(v){return new Date(v+"T00:00:00").toLocaleDateString("en-ZA",{weekday:"long",day:"numeric",month:"long",year:"numeric"})}
-function fmtICS(d){return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+"00Z"}
-
+function fmtICS(d){return d.getUTCFullYear()+String(d.getUTCMonth()+1).padStart(2,"0")+String(d.getUTCDate()).padStart(2,"0")+"T"+String(d.getUTCHours()).padStart(2,"0")+String(d.getUTCMinutes()).padStart(2,"0")+String(d.getUTCSeconds()).padStart(2,"0")+"Z"}
+function icsText(v){return String(v||"").replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n")}
+function appointmentTimes(booking,mins){
+ const start=new Date(booking.date+"T"+booking.time+":00");
+ const end=new Date(start.getTime()+mins*60000);
+ return {start,end};
+}
+function buildCalendarICS(svc,booking){
+ const {start,end}=appointmentTimes(booking,svc.mins);
+ const location="14 Fox Street, Marshalltown, Johannesburg, 2001";
+ const summary=`${svc.name} at Steelcut Barber Co.`;
+ const description=[
+  `Customer: ${booking.name}`,
+  `Barber: ${booking.barber}`,
+  `Service: ${svc.name}`,
+  `Duration: ${svc.mins} minutes`,
+  `Price: ${svc.id===6?"Quote":"R"+svc.price}`,
+  `Phone: ${booking.phone}`,
+  booking.email?`Email: ${booking.email}`:"",
+  booking.notes?`Notes: ${booking.notes}`:""
+ ].filter(Boolean).join("\n");
+ const uid=`steelcut-${booking.createdAt||Date.now()}-${booking.date}-${booking.time.replace(":","")}@steelcutbarber.co.za`;
+ return [
+  "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Steelcut Barber Co.//Booking//EN","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+  "BEGIN:VEVENT",
+  `UID:${icsText(uid)}`,
+  `DTSTAMP:${fmtICS(new Date())}`,
+  `DTSTART:${fmtICS(start)}`,
+  `DTEND:${fmtICS(end)}`,
+  `SUMMARY:${icsText(summary)}`,
+  `DESCRIPTION:${icsText(description)}`,
+  `LOCATION:${icsText(location)}`,
+  "STATUS:CONFIRMED",
+  "END:VEVENT","END:VCALENDAR"
+ ].join("\r\n");
+}
+function googleCalendarUrl(svc,booking){
+ const {start,end}=appointmentTimes(booking,svc.mins);
+ const fmt=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}Z$/,"Z");
+ const location="14 Fox Street, Marshalltown, Johannesburg, 2001";
+ const details=[
+  `Customer: ${booking.name}`,
+  `Barber: ${booking.barber}`,
+  `Service: ${svc.name}`,
+  `Duration: ${svc.mins} minutes`,
+  `Price: ${svc.id===6?"Quote":"R"+svc.price}`,
+  `Phone: ${booking.phone}`,
+  booking.email?`Email: ${booking.email}`:"",
+  booking.notes?`Notes: ${booking.notes}`:""
+ ].filter(Boolean).join("\n");
+ const params=new URLSearchParams({action:"TEMPLATE",text:`${svc.name} at Steelcut Barber Co.`,dates:`${fmt(start)}/${fmt(end)}`,details,location});
+ return "https://calendar.google.com/calendar/render?"+params.toString();
+}
+function addCalendarFile(svc,booking){
+ const blob=new Blob([buildCalendarICS(svc,booking)],{type:"text/calendar;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download=`steelcut-${booking.date}-${booking.time.replace(":","")}.ics`;
+ document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
 function renderStyles(){
  const wrap=$("serviceCards"),sel=$("m-service");
  wrap.innerHTML="";sel.innerHTML='<option value="">Select a service</option>';
@@ -206,20 +266,6 @@ function toggleDatePicker(){
 function toggleTimePicker(){
  if(!$("m-date").value){$("dateHelp").textContent="Choose your appointment date first.";$("datePickerPanel").classList.remove("d-none");renderCalendar();return}
  $("datePickerPanel").classList.add("d-none");renderTimeSlots();$("timePickerPanel").classList.toggle("d-none");
-}
-function buildCalendarICS(svc,booking){
- const start=new Date(booking.date+"T"+booking.time+":00"),end=new Date(start.getTime()+svc.mins*60000);
- return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Steelcut Barber Co.//Booking//EN","CALSCALE:GREGORIAN","BEGIN:VEVENT","UID:steelcut-"+Date.now()+"@steelcutbarber.co.za","DTSTAMP:"+fmtICS(new Date()),"DTSTART:"+fmtICS(start),"DTEND:"+fmtICS(end),"SUMMARY:"+svc.name+" at Steelcut Barber Co.","DESCRIPTION:Appointment for "+booking.name+" with "+booking.barber+". Service: "+svc.name+" (R"+svc.price+").","LOCATION:14 Fox Street\, Marshalltown\, Johannesburg\, 2001","END:VEVENT","END:VCALENDAR"].join("\r\n");
-}
-function googleCalendarUrl(svc,booking){
- const start=new Date(booking.date+"T"+booking.time+":00"),end=new Date(start.getTime()+svc.mins*60000);
- const fmt=d=>d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}Z$/, "Z");
- const params=new URLSearchParams({action:"TEMPLATE",text:svc.name+" at Steelcut Barber Co.",dates:fmt(start)+"/"+fmt(end),details:"Appointment for "+booking.name+" with "+booking.barber+". Service: "+svc.name+" (R"+svc.price+").\nPhone: "+booking.phone,location:"14 Fox Street, Marshalltown, Johannesburg, 2001"});
- return "https://calendar.google.com/calendar/render?"+params.toString();
-}
-function addCalendarFile(svc,booking){
- const blob=new Blob([buildCalendarICS(svc,booking)],{type:"text/calendar;charset=utf-8"});
- const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="steelcut-appointment.ics";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 async function sendAutomaticEmail(svc,booking){
  if(!EMAIL_CONFIG.enabled||!window.emailjs)return false;
