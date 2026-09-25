@@ -309,20 +309,28 @@ renderStyles();renderHairstyles();renderBarberTeam();renderProducts();renderCale
     if(q.includes('recommend')||q.includes('professional')||q.includes('wedding')) return 'For a clean professional look, I would start with one of our haircut services and add a beard trim if you wear facial hair. If you tell me your hair length and the look you want, I can narrow it down.';
     return 'I can help with services, prices, barbers, products, opening hours and booking. What would you like to know?';
   };
-  async function send(text){
+  function send(text){
     const clean=text.trim();if(!clean)return;
     addMessage(clean,'user');input.value='';
-    const typing=addMessage('Thinking…','bot typing');
-    try{
-      const response=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:clean})});
-      if(!response.ok)throw new Error('AI endpoint unavailable');
-      const data=await response.json();typing.remove();addMessage(data.reply||localReply(clean),'bot');
-    }catch(e){
-      typing.remove();addMessage(localReply(clean),'bot');
-    }
+    // Frontend-only assistant: works on GitHub Pages and other static hosting.
+    window.setTimeout(()=>addMessage(localReply(clean),'bot'),250);
   }
   button.addEventListener('click',()=>{panel.hidden=false;input.focus()});
   close.addEventListener('click',()=>panel.hidden=true);
   form.addEventListener('submit',e=>{e.preventDefault();send(input.value)});
   document.querySelectorAll('[data-ai-prompt]').forEach(b=>b.addEventListener('click',()=>send(b.dataset.aiPrompt)));
+})();
+
+
+// Close the Bootstrap mobile navigation after a link is selected.
+(function(){
+  const navMenu=document.getElementById('navMenu');
+  if(!navMenu || !window.bootstrap)return;
+  document.querySelectorAll('#navMenu .nav-link').forEach(link=>{
+    link.addEventListener('click',()=>{
+      if(navMenu.classList.contains('show')){
+        bootstrap.Collapse.getOrCreateInstance(navMenu,{toggle:false}).hide();
+      }
+    });
+  });
 })();
